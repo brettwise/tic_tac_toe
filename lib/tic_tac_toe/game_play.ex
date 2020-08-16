@@ -2,18 +2,20 @@ defmodule TicTacToe.GamePlay do
   alias TicTacToe.GameState
 
   def update_game(%GameState{board: board} = game, space) do
-    case get_space_value(space, board) do
-      nil ->
-        game
-        |> mark_space(space)
-        |> switch_player_turn
-        |> check_board_status
-        |> update_message
-
-      _ ->
-        game
-        |> update_message("Can only mark empty spaces.")
+    if space_previously_marked?(space, board) do
+      "Can only mark empty spaces ya dingus!"
+      |> update_message(game)
+    else
+      game
+      |> mark_space(space)
+      |> switch_player_turn
+      |> check_board_status
+      |> update_message
     end
+  end
+
+  defp space_previously_marked?(space, board) do
+    if get_space_value(space, board), do: true, else: false
   end
 
   def mark_space(%GameState{is_player_one_turn: true} = game, space) do
@@ -35,28 +37,20 @@ defmodule TicTacToe.GamePlay do
   end
 
   def maybe_set_draw(%GameState{board: board} = game) do
-    if is_draw?(board) do
-      %{
-        game
-        | game_status: "Draw"
-      }
-    else
-      game
-    end
+    if is_draw?(board), do: mark_game_status(game, "Draw"), else: game
   end
 
   def is_draw?(board), do: !Enum.member?(Map.values(board), nil)
 
   def maybe_set_win(game) do
     if is_win?(game.board) do
-      %{
-        game
-        | game_status: "Win"
-      }
+      mark_game_status(game, "Win")
     else
       game
     end
   end
+
+  defp mark_game_status(game, status), do: %{game | game_status: status}
 
   defguard is_not_nil(value) when value !== nil
 
@@ -80,5 +74,5 @@ defmodule TicTacToe.GamePlay do
     %{game | message: GameState.get_player_message(game.is_player_one_turn)}
   end
 
-  def update_message(game, message), do: %{game | message: message}
+  def update_message(message, game), do: %{game | message: message}
 end
