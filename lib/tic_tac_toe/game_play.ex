@@ -43,25 +43,21 @@ defmodule TicTacToe.GamePlay do
   def is_draw?(board), do: !Enum.member?(Map.values(board), nil)
 
   def maybe_set_win(game) do
-    if is_win?(game.board) do
-      mark_game_status(game, "Win")
-    else
-      game
-    end
+    if is_win?(game.board), do: mark_game_status(game, "Win"), else: game
   end
 
   defp mark_game_status(game, status), do: %{game | game_status: status}
 
   defguard is_not_nil(value) when value !== nil
 
-  def is_win?(%{space_1: value, space_2: value, space_3: value}) when is_not_nil(value), do: true
-  def is_win?(%{space_4: value, space_5: value, space_6: value}) when is_not_nil(value), do: true
-  def is_win?(%{space_7: value, space_8: value, space_9: value}) when is_not_nil(value), do: true
-  def is_win?(%{space_1: value, space_4: value, space_7: value}) when is_not_nil(value), do: true
-  def is_win?(%{space_2: value, space_5: value, space_8: value}) when is_not_nil(value), do: true
-  def is_win?(%{space_3: value, space_6: value, space_9: value}) when is_not_nil(value), do: true
-  def is_win?(%{space_1: value, space_5: value, space_9: value}) when is_not_nil(value), do: true
-  def is_win?(%{space_3: value, space_5: value, space_7: value}) when is_not_nil(value), do: true
+  def is_win?(%{space_1: mark, space_2: mark, space_3: mark}) when is_not_nil(mark), do: true
+  def is_win?(%{space_4: mark, space_5: mark, space_6: mark}) when is_not_nil(mark), do: true
+  def is_win?(%{space_7: mark, space_8: mark, space_9: mark}) when is_not_nil(mark), do: true
+  def is_win?(%{space_1: mark, space_4: mark, space_7: mark}) when is_not_nil(mark), do: true
+  def is_win?(%{space_2: mark, space_5: mark, space_8: mark}) when is_not_nil(mark), do: true
+  def is_win?(%{space_3: mark, space_6: mark, space_9: mark}) when is_not_nil(mark), do: true
+  def is_win?(%{space_1: mark, space_5: mark, space_9: mark}) when is_not_nil(mark), do: true
+  def is_win?(%{space_3: mark, space_5: mark, space_7: mark}) when is_not_nil(mark), do: true
   def is_win?(_), do: false
 
   def get_space_value(space, board), do: Map.get(board, space)

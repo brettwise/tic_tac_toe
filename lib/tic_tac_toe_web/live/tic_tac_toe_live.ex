@@ -15,7 +15,7 @@ defmodule TicTacToeWeb.TicTacToeLive do
     </div>
     <div class="board">
       <%= for number <- 1..9 do %>
-        <button class="space" phx-click=<%= get_mark_string(number) %>>
+        <button <%= is_in_win_state?(@game_state.game_status) %> class="space" phx-click=<%= get_mark_string(number) %>>
           <%= get_space_value(@game_state.board, number) %>
         </button>
       <% end %>
@@ -37,6 +37,10 @@ defmodule TicTacToeWeb.TicTacToeLive do
     {:noreply,
      assign(socket, :game_state, GamePlay.update_game(socket.assigns.game_state, space))}
   end
+
+  defp is_in_win_state?("Win"), do: "disabled"
+  defp is_in_win_state?("Draw"), do: "disabled"
+  defp is_in_win_state?(_), do: ""
 
   defp get_mark_string(number) do
     "mark_space_#{number}"
