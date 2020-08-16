@@ -14,7 +14,7 @@ defmodule TicTacToeWeb.TicTacToeLive do
     <p>Game Status: <%= @game_state.game_status %></p>
     <%= for number <- 1..9 do %>
       <button phx-click=<%= get_mark_string(number) %>>
-        <%= @game_state.board.space_1 || "" %>
+        <%= get_space_value(@game_state.board, number) %>
       </button>
     <% end %>
     """
@@ -37,4 +37,14 @@ defmodule TicTacToeWeb.TicTacToeLive do
   defp get_mark_string(number) do
     "mark_space_#{number}"
   end
+
+  def get_space_value(board, space_number) do
+    "space_#{space_number}"
+    |> String.to_atom
+    |> GamePlay.get_space_value(board)
+    |> format_for_ui
+  end
+
+  defp format_for_ui(nil), do: ""
+  defp format_for_ui(value), do: value
 end

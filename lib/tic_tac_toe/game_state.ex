@@ -10,7 +10,7 @@ defmodule TicTacToe.GameState do
       player_1: get_new_player("Enter Name"),
       player_2: get_new_player("Computer"),
       is_player_one_turn: is_player_one_turn,
-      game_status: "Not Started"
+      game_status: "Playing"
     }
   end
 

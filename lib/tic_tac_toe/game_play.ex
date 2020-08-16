@@ -1,20 +1,7 @@
 defmodule TicTacToe.GamePlay do
   alias TicTacToe.GameState
-  def start_game(game, is_player_one_turn \\ true) do
-    %{
-      game
-      | is_player_one_turn: is_player_one_turn,
-        game_status: "Started"
-    }
-  end
-
-  # check_space
-  # if nil check who's turn it is, update map with corresponding mark and clear any alerts
-  # if it has a value set alert to say "Must select empty space"
-  # check board state, if alert was set just return game
-
   def update_game(%GameState{board: board} = game, space) do
-    case get_space_value(board, space) do
+    case get_space_value(space, board) do
       nil ->
         game
         |> mark_space(space)
@@ -26,7 +13,7 @@ defmodule TicTacToe.GamePlay do
     end
   end
 
-  def get_space_value(board, space), do: Map.get(board, space)
+  def get_space_value(space, board), do: Map.get(board, space)
 
   def mark_space(%GameState{is_player_one_turn: true, board: board} = game, space) do
     %{
