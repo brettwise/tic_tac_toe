@@ -16,6 +16,18 @@ defmodule TicTacToe.GamePlay do
     end
   end
 
+  def mark_space(%GameState{is_player_one_turn: true} = game, space) do
+    mark_board(game, space, "X")
+  end
+
+  def mark_space(%GameState{is_player_one_turn: false} = game, space) do
+    mark_board(game, space, "O")
+  end
+
+  def switch_player_turn(%GameState{is_player_one_turn: is_player_one_turn} = game) do
+    %{game | is_player_one_turn: !is_player_one_turn}
+  end
+
   def check_board_status(game) do
     game
     |> maybe_set_draw
@@ -32,6 +44,8 @@ defmodule TicTacToe.GamePlay do
       game
     end
   end
+
+  def is_draw?(board), do: !Enum.member?(Map.values(board), nil)
 
   def maybe_set_win(game) do
     if is_win?(game.board) do
@@ -56,48 +70,15 @@ defmodule TicTacToe.GamePlay do
   def is_win?(%{space_3: value, space_5: value, space_7: value}) when is_not_nil(value), do: true
   def is_win?(_), do: false
 
-  def is_draw?(board) do
-    board_values =
-      board
-      |> Map.values()
-
-    !Enum.member?(board_values, nil)
-  end
-
   def get_space_value(space, board), do: Map.get(board, space)
 
-  def mark_space(%GameState{is_player_one_turn: true, board: board} = game, space) do
-    %{
-      game
-      | board: Map.put(board, space, "X")
-    }
-  end
-
-  def mark_space(%GameState{is_player_one_turn: false, board: board} = game, space) do
-    %{
-      game
-      | board: Map.put(board, space, "O")
-    }
-  end
-
-  def switch_player_turn(%GameState{is_player_one_turn: is_player_one_turn} = game) do
-    %{
-      game
-      | is_player_one_turn: !is_player_one_turn
-    }
+  defp mark_board(game, space, marker) do
+    %{game | board: Map.put(game.board, space, marker)}
   end
 
   def update_message(game) do
-    %{
-      game
-      | message: GameState.get_player_message(game.is_player_one_turn)
-    }
+    %{game | message: GameState.get_player_message(game.is_player_one_turn)}
   end
 
-  def update_message(game, message) do
-    %{
-      game
-      | message: message
-    }
-  end
+  def update_message(game, message), do: %{game | message: message}
 end
