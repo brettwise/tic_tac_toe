@@ -89,3 +89,18 @@
   display: block;
   margin: -1rem 0 2rem;
 }
+
+.game-header {
+  text-align: center;
+}
+
+.board {
+  display: grid;
+  grid-template-areas: "space space space" "space space space" "space space space";
+  grid-template-rows: repeat(3, 200px);
+}
+
+.space {
+  height: 90%;
+  width: 95%;
+}

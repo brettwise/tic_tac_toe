@@ -8,15 +8,18 @@ defmodule TicTacToeWeb.TicTacToeLive do
 
   def render(assigns) do
     ~L"""
-    <p><%= @game_state.message %></p>
-    <p>Player 1: <%= @game_state.player_1.name %></p>
-    <p>Player 2: <%= @game_state.player_2.name %></p>
-    <p>Game Status: <%= @game_state.game_status %></p>
-    <%= for number <- 1..9 do %>
-      <button phx-click=<%= get_mark_string(number) %>>
-        <%= get_space_value(@game_state.board, number) %>
-      </button>
-    <% end %>
+    <div class="game-header">
+      <p>Player 1: <%= @game_state.player_1.name %> || Player 2: <%= @game_state.player_2.name %></p>
+      <h2>Game Status: <%= @game_state.game_status %></h2>
+      <h2><%= @game_state.message %></h2>
+    </div>
+    <div class="board">
+      <%= for number <- 1..9 do %>
+        <button class="space" phx-click=<%= get_mark_string(number) %>>
+          <%= get_space_value(@game_state.board, number) %>
+        </button>
+      <% end %>
+    </div>
     """
   end
 
