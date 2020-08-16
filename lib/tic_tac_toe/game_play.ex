@@ -1,5 +1,6 @@
 defmodule TicTacToe.GamePlay do
   alias TicTacToe.GameState
+
   def update_game(%GameState{board: board} = game, space) do
     case get_space_value(space, board) do
       nil ->
@@ -8,6 +9,7 @@ defmodule TicTacToe.GamePlay do
         |> switch_player_turn
         |> check_board_status
         |> update_message
+
       _ ->
         game
         |> update_message("Can only mark empty spaces.")
@@ -42,27 +44,22 @@ defmodule TicTacToe.GamePlay do
     end
   end
 
-  defmacro is_not_nil(value) do
-    !is_nil(value)
-  end
+  defguard is_not_nil(value) when value !== nil
 
   def is_win?(%{space_1: value, space_2: value, space_3: value}) when is_not_nil(value), do: true
   def is_win?(%{space_4: value, space_5: value, space_6: value}) when is_not_nil(value), do: true
-  # def is_win?(%{space_7: value, space_8: value, space_9: value}), do: true
-  # def is_win?(%{space_1: value, space_4: value, space_7: value}), do: true
-  # def is_win?(%{space_2: value, space_5: value, space_8: value}), do: true
-  # def is_win?(%{space_3: value, space_6: value, space_9: value}), do: true
-  # def is_win?(%{space_1: value, space_5: value, space_9: value}), do: true
-  # def is_win?(%{space_3: value, space_5: value, space_7: value}), do: true
-
-  def is_win?(_) do
-    false
-  end
+  def is_win?(%{space_7: value, space_8: value, space_9: value}) when is_not_nil(value), do: true
+  def is_win?(%{space_1: value, space_4: value, space_7: value}) when is_not_nil(value), do: true
+  def is_win?(%{space_2: value, space_5: value, space_8: value}) when is_not_nil(value), do: true
+  def is_win?(%{space_3: value, space_6: value, space_9: value}) when is_not_nil(value), do: true
+  def is_win?(%{space_1: value, space_5: value, space_9: value}) when is_not_nil(value), do: true
+  def is_win?(%{space_3: value, space_5: value, space_7: value}) when is_not_nil(value), do: true
+  def is_win?(_), do: false
 
   def is_draw?(board) do
     board_values =
       board
-      |> Map.values
+      |> Map.values()
 
     !Enum.member?(board_values, nil)
   end

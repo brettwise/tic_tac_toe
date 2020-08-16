@@ -34,7 +34,8 @@ defmodule TicTacToeWeb.TicTacToeLive do
   def handle_event("mark_space_9", _, socket), do: update_game(socket, :space_9)
 
   defp update_game(socket, space) do
-    {:noreply, assign(socket, :game_state, GamePlay.update_game(socket.assigns.game_state, space))}
+    {:noreply,
+     assign(socket, :game_state, GamePlay.update_game(socket.assigns.game_state, space))}
   end
 
   defp get_mark_string(number) do
@@ -43,7 +44,7 @@ defmodule TicTacToeWeb.TicTacToeLive do
 
   def get_space_value(board, space_number) do
     "space_#{space_number}"
-    |> String.to_atom
+    |> String.to_atom()
     |> GamePlay.get_space_value(board)
     |> format_for_ui
   end
