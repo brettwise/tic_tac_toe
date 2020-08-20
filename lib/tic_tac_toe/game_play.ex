@@ -40,6 +40,11 @@ defmodule TicTacToe.GamePlay do
     if is_draw?(board), do: mark_game_status(game, "Draw"), else: game
   end
 
+  %{
+    space_1: "X",
+    space_2: "O"
+  }
+
   def is_draw?(board), do: !Enum.member?(Map.values(board), nil)
 
   def maybe_set_win(game) do

@@ -95,7 +95,10 @@
 
 .board {
   display: grid;
-  grid-template-areas: "space space space" "space space space" "space space space";
+  grid-template-areas:
+  "space space space"
+  "space space space"
+  "space space space";
   grid-template-rows: repeat(3, 200px);
 }
 

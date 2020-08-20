@@ -1,7 +1,16 @@
 defmodule TicTacToe.GameState do
-  @state ~w(message board player_1 player_2 is_player_one_turn game_status)a
+  @state ~w(
+    message
+    board
+    player_1
+    player_2
+    is_player_one_turn
+    game_status
+  )a
+
   @enforce_keys @state
   defstruct @state
+
 
   def init_game(is_player_one_turn \\ true) do
     %__MODULE__{
